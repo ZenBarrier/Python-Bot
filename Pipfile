@@ -10,4 +10,5 @@ name = "pypi"
 
 
 [packages]
-
+chatterbot = '*'
+gunicorn = '*'
