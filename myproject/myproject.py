@@ -1,7 +1,13 @@
 from flask import Flask, request
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
-from secrets import mongo_uri
+
+try:
+    from boto.s3.connection import S3Connection
+    import os
+    mongo_uri = S3Connection(os.environ['MONGODB_URI'])
+except:
+    from secrets import mongo_uri
 
 application = Flask(__name__)
 
