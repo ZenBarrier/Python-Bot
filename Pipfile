@@ -12,3 +12,4 @@ name = "pypi"
 [packages]
 chatterbot = '*'
 gunicorn = '*'
+flask = '*'
