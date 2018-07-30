@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
@@ -8,18 +8,20 @@ try:
 except:
     from secrets import mongo_uri
 
-application = Flask(__name__)
+application = Flask(__name__, static_folder="static")
 
 english_chatbot = ChatBot('Chatterbot',
                          storage_adapter = "chatterbot.storage.MongoDatabaseAdapter",
                          database = "heroku_zr537699",
                          database_uri = mongo_uri)
-english_chatbot.set_trainer(ChatterBotCorpusTrainer)
-english_chatbot.train("chatterbot.corpus.english")
+#english_chatbot.set_trainer(ChatterBotCorpusTrainer)
+#train = english_chatbot.train
+#train("chatterbot.corpus.english")
 
-@application.route("/")
-def hello():
-    return "<h1 style='color:blue'>Hello There!</h1>"
+@application.route('/', defaults={'path': 'index.html'})
+@application.route("/<path:path>")
+def static_files(path):
+    return send_from_directory('static',path)
 
 @application.route("/chat")
 def chat():
